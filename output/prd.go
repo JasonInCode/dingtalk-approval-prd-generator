@@ -787,6 +787,11 @@ func buildConditionDesc(ctx *model.FieldContext, cond map[string]interface{}) st
 	return paramLabel
 }
 
+// escapeTableCell 转义Markdown表格单元格中的特殊字符（换行符替换为<br>）
+func escapeTableCell(content string) string {
+	return strings.ReplaceAll(content, "\n", "<br>")
+}
+
 // GeneratePRD 生成PRD文档
 func GeneratePRD(detail *model.FormDetailJSON, extraInfo *model.PRDExtraInfo, outputPath string) error {
 	var sb strings.Builder
@@ -880,7 +885,7 @@ func GeneratePRD(detail *model.FormDetailJSON, extraInfo *model.PRDExtraInfo, ou
 		// 说明文字内容
 		if item.ComponentName == "TextNote" {
 			if content := GetPropString(props, "content"); content != "" {
-				desc.WriteString(fmt.Sprintf("内容: %s", content))
+				desc.WriteString(fmt.Sprintf("内容: %s", escapeTableCell(content)))
 			}
 		}
 
@@ -1069,7 +1074,7 @@ func GeneratePRD(detail *model.FormDetailJSON, extraInfo *model.PRDExtraInfo, ou
 						if childDesc.Len() > 0 {
 							childDesc.WriteString("; ")
 						}
-						childDesc.WriteString(fmt.Sprintf("内容: %s", content))
+						childDesc.WriteString(fmt.Sprintf("内容: %s", escapeTableCell(content)))
 					}
 				}
 

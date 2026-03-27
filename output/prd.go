@@ -961,26 +961,25 @@ func GeneratePRD(detail *model.FormDetailJSON, extraInfo *model.PRDExtraInfo, ou
 					if value, ok := blMap["value"].(string); ok {
 						// 翻译选项值
 						translatedValue := TranslateOptionValue(ctx, fieldId, value)
-						// 解析目标字段
+						// 解析目标字段（过滤掉已删除的字段）
 						targetFields := make([]string, 0)
 						if targets, ok := blMap["targets"].([]interface{}); ok {
 							for _, t := range targets {
 								if tMap, ok := t.(map[string]interface{}); ok {
 									if targetFieldId, ok := tMap["fieldId"].(string); ok {
+										// 只保留存在的字段，过滤掉已删除的"幽灵字段"
 										if targetLabel, exists := ctx.IdToLabelMap[targetFieldId]; exists {
 											targetFields = append(targetFields, targetLabel)
-										} else {
-											targetFields = append(targetFields, targetFieldId)
 										}
+										// 不存在的字段直接跳过，不显示fieldId
 									}
 								}
 							}
 						}
 						if len(targetFields) > 0 {
 							linkage.WriteString(fmt.Sprintf("选「%s」时显示「%s」<br>", translatedValue, strings.Join(targetFields, "、")))
-						} else {
-							linkage.WriteString(fmt.Sprintf("选「%s」时显隐字段<br>", translatedValue))
 						}
+						// 如果所有目标字段都被删除，则不输出联动信息
 					}
 				}
 			}

@@ -1,0 +1,22 @@
+# 钉钉审批爬虫配置文件
+
+# 钉钉 Cookie（从浏览器开发者工具获取）
+cookie: "你的钉钉Cookie"
+
+# CSRF Token（从请求头 _csrf_token_ 获取）
+csrf_token: "你的CSRF Token"
+
+# 企业 ID（从请求头 x-client-corpid 获取）
+corp_id: "你的企业ID"
+
+# 输出目录
+output_dir: "D:\\Download"
+
+# 输出 CSV 文件名
+output_filename: "approval_forms.csv"
+
+# 并发工作线程数（建议 5-20）
+workers: 10
+
+# 失败重试次数
+retry_count: 3

@@ -1,0 +1,15 @@
+# Claude Code
+.claude/
+
+# Serena LSP
+.serena/
+
+# 配置文件（含敏感信息）
+config.yaml
+
+# 临时文件
+PRD_VALIDATION_TRACKER.md
+prompt.md
+
+# Go Land
+.idea/
